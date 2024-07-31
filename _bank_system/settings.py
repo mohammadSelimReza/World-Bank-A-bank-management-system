@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bank_app',
     'bank_user',
+    'bank_transaction',
     "crispy_forms",
     "crispy_bootstrap5",
 ]
