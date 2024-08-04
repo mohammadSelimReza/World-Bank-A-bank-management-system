@@ -4,8 +4,9 @@ LOAN = 3
 LOAN_PAID = 4
 
 TRANSACTION_TYPE = (
-    ('DEPOSIT','Deposit'),
-    ('WITHDRAWAL','Withdraw'),
-    ('LOAN','Loan'),
-    ('LOAN_PAID','Loan Paid'),
+    (DEPOSIT, 'Deposite'),
+    (WITHDRAWAL, 'Withdrawal'),
+    (LOAN, 'Loan'),
+    (LOAN_PAID, 'Loan Paid'),
+    
 )

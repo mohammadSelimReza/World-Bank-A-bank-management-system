@@ -28,14 +28,14 @@
                         {{loan.id}}
                     </th>
                     <td class="px-6 py-4">
-                        {{loan.ammount}}
+                        {{loan.amount}}
                     </td>
                     <td class="px-6 py-4">
                         {{loan.loan_approve}}
                     </td>
                     <td class="px-6 py-4">
                         {% if loan.loan_approve %}
-                        <a class="font-bold bg-red-900 text-white hover:text-blue-900 hover:bg-white border border-blue-900 font-bold px-4 py-2 rounded-lg" href='{% url "pay" loan.id %}'>Pay</a>
+                        <a class="font-bold bg-red-900 text-white hover:text-blue-900 hover:bg-white border border-blue-900 font-bold px-4 py-2 rounded-lg" href='{% url "pay_loan" loan.id %}'>Pay</a>
                         {% else %}
                         <p class="font-bold text-red-700 bg-red-100">Loan Pending</p>
                         {% endif %}

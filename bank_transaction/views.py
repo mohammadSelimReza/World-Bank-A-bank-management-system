@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, ListView, View
 from .models import TransactionModel
 from .forms import DepositForm, WithdrawForm, LoanRequestForm
-from .constrant import LOAN, DEPOSIT, LOAN_PAID, WITHDRAWAL
+from .constrant import DEPOSIT,LOAN,LOAN_PAID,WITHDRAWAL
 from django.contrib import messages
 from datetime import datetime
 from django.db.models import Sum
@@ -35,19 +35,27 @@ class TransactionCreateMixin(LoginRequiredMixin, CreateView):
 class DepositMoneyView(TransactionCreateMixin):
     form_class = DepositForm
     title = "Deposit"
-    
+
     def get_initial(self):
         initial = {'transaction_type': DEPOSIT}
         return initial
-    
+
     def form_valid(self, form):
+        print("Form is valid")
         amount = form.cleaned_data.get('amount')
         account = self.request.user.account
+        print(f"Initial Balance: {account.balance}")
+        print(f"Deposit Amount: {amount}")
         account.balance += amount
+        print(f"Updated Balance: {account.balance}")
         account.save(update_fields=['balance'])
         messages.success(self.request, f"{amount}$ was deposited to your account successfully.")
         return super().form_valid(form)
 
+    def form_invalid(self, form):
+        print("Form is invalid")
+        print(form.errors)
+        return self.render_to_response(self.get_context_data(form=form))
 class WithdrawMoneyView(TransactionCreateMixin):
     form_class = WithdrawForm
     title = "Withdraw"

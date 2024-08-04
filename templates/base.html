@@ -1,3 +1,5 @@
+{% load static %}
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -35,7 +37,7 @@
             class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse"
           >
             {% if user.is_authenticated %}
-              <h5 class="text-xl text-center font-bold pt-1"> ${{user.account.balance}} </h5>
+              <h5 class="text-xl text-center font-bold pt-1"> ${{user.account.balance|floatformat:2|intcomma}} </h5>
               <a href="{% url 'profileUpdate' %}">
                 <button
                 type="button"

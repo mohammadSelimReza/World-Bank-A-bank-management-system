@@ -5,13 +5,13 @@ from .models import TransactionModel
 class TransactionForm(forms.ModelForm):
     class Meta:
         model = TransactionModel
-        fields = ['ammount','transaction_type']
+        fields = ['amount','transaction_type']
         
     def __init__(self,*args, **kwargs):
         self.account = kwargs.pop('account')
         super().__init__(*args, **kwargs)
         self.fields['transaction_type'].disabled = True
-        self.fields['transaction_type'].widget = forms.HiddenInput
+        self.fields['transaction_type'].widget = forms.HiddenInput()
         
     def save(self, commit=True):
         self.instance.account = self.account
@@ -20,41 +20,41 @@ class TransactionForm(forms.ModelForm):
     
     
 class DepositForm(TransactionForm):
-    def clean_ammount(self):
-        min_deposit_ammount = 100
-        ammount = self.cleaned_data["ammount"]
-        if ammount < min_deposit_ammount:
+    def clean_amount(self):
+        min_deposit_amount = 100
+        amount = self.cleaned_data["amount"]
+        if amount < min_deposit_amount:
             raise forms.ValidationError(
-                f'You need to deposit at least {min_deposit_ammount}$'
+                f'You need to deposit at least {min_deposit_amount}$'
             )
         
-        return ammount
+        return amount
     
 class WithdrawForm(TransactionForm):
-    def clean_ammount(self):
+    def clean_amount(self):
         account = self.account
-        min_withdraw_ammount = 500
-        max_withdraw_ammount = 20000
+        min_withdraw_amount = 500
+        max_withdraw_amount = 20000
         balance = account.balance
-        ammount = self.cleaned_data["ammount"]
-        if ammount < min_withdraw_ammount:
+        amount = self.cleaned_data["amount"]
+        if amount < min_withdraw_amount:
             raise forms.ValidationError(
-                f"You have to withdraw at least {min_withdraw_ammount}$"
+                f"You have to withdraw at least {min_withdraw_amount}$"
             )
-        if ammount > max_withdraw_ammount:
+        if amount > max_withdraw_amount:
             raise forms.ValidationError(
-                f"You can not withdraw more that {max_withdraw_ammount}$ at a time."
+                f"You can not withdraw more that {max_withdraw_amount}$ at a time."
             )
-        if ammount > balance:
+        if amount > balance:
             raise forms.ValidationError(
                 f"You have {balance}$ in your account."
             )
-        return ammount
+        return amount
 
 class LoanRequestForm(TransactionForm):
-    def clean_ammount(self):
-        ammount = self.cleaned_data["ammount"]
+    def clean_amount(self):
+        amount = self.cleaned_data["amount"]
         
-        return ammount
+        return amount
     
     
