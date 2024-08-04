@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'bank_transaction',
     "crispy_forms",
     "crispy_bootstrap5",
+    'django.contrib.humanize',
 ]
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 

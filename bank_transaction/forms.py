@@ -30,7 +30,7 @@ class DepositForm(TransactionForm):
         
         return ammount
     
-class WithdrawFrom(TransactionForm):
+class WithdrawForm(TransactionForm):
     def clean_ammount(self):
         account = self.account
         min_withdraw_ammount = 500
@@ -51,7 +51,7 @@ class WithdrawFrom(TransactionForm):
             )
         return ammount
 
-class LoadRequestForm(TransactionForm):
+class LoanRequestForm(TransactionForm):
     def clean_ammount(self):
         ammount = self.cleaned_data["ammount"]
         
