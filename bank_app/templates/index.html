@@ -4,4 +4,8 @@
   <h1 class="text-center text-6xl">Welcome to World Bank
     <br>
     <span class="text-orange-400">{{user.first_name}} {{user.last_name}}</span> </h1>
+    {% if user.is_authenticated %}
+    <h3 class="text-xl font-bold text-center">Account No: {{user.account.account_no}} </h3>  
+    {% endif %}
+    
 {% endblock main %}

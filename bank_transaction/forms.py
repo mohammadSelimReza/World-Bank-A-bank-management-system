@@ -1,7 +1,7 @@
 from typing import Any
 from django import forms
 from .models import TransactionModel
-
+from bank_user.models import UserAccountModel
 class TransactionForm(forms.ModelForm):
     class Meta:
         model = TransactionModel
@@ -56,5 +56,28 @@ class LoanRequestForm(TransactionForm):
         amount = self.cleaned_data["amount"]
         
         return amount
+   
+class TransferMoneyForm(forms.Form):
+    from_account = forms.CharField(max_length=12,disabled=True)
+    to_account = forms.CharField(max_length=12)
+    amount = forms.DecimalField(max_digits=12,decimal_places=2)
     
+    def __init__(self,*args, **kwargs):
+        self.user_account = kwargs.pop('user_account')
+        super().__init__(*args, **kwargs)
+        self.fields['from_account'].initial = self.user_account.account_no
     
+    def clean(self):
+        cleaned_data = super().clean()
+        from_account = self.user_account.account_no
+        to_account = cleaned_data.get('to_account')
+        amount = cleaned_data.get('amount')
+        
+        if not UserAccountModel.objects.filter(account_no = to_account).exists():
+            raise forms.ValidationError("Account Not Found.")
+        
+        form_account_balance = self.user_account.balance
+        if form_account_balance < amount:
+            raise forms.ValidationError("Insufficient funds in your account.")
+        
+        return cleaned_data

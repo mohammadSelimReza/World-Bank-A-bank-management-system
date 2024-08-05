@@ -21,7 +21,14 @@
             {% endfor %}
         {% endif %}
         <button class="bg-blue-900 text-white hover:text-blue-900 hover:bg-white border border-blue-900 font-bold px-4 py-2 rounded-lg" type="submit">
-            Submit
+            {% if title == 'Deposit' %}
+                Deposit Now
+            {% elif title == 'Withdraw' %}
+                Withdraw Now
+            {% elif title == 'Request For Loan' %}
+                Request Now
+            {% endif %}
+            
         </button>
     </form>
 </section>
